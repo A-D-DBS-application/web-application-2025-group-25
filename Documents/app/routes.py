@@ -3,12 +3,15 @@ from .models import db, User
 
 main = Blueprint('main', __name__)
 
+
 @main.route('/')
 def index():
     if 'user_id' in session:
         user = User.query.get(session['user_id'])
-        return f'Logged in as {user.email}'
-    return 'You are not logged in <a href="/login">login</a> <a href="/register">register</a>'
+        if user:
+            return render_template('index.html', user_email=user.email)
+    return render_template('index.html', user_email=None)
+
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
@@ -34,7 +37,8 @@ def login():
         return 'User not found'
     return render_template('login.html')
 
-@main.route('/logout')
+@main.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('main.index'))
+
