@@ -6,8 +6,8 @@
     <title>Dashboard</title>
 </head>
 <body>
-    {% if user_email %}
-        <h1>Welcome, {{ user_email }}!</h1>
+    {% if username %}
+        <h1>Welcome, {{ username }}!</h1>
         <form action="{{ url_for('main.logout') }}" method="post">
             <button type="submit">Logout</button>
         </form>
