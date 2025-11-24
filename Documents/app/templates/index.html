@@ -11,6 +11,18 @@
         <form action="{{ url_for('main.logout') }}" method="post">
             <button type="submit">Logout</button>
         </form>
+        <hr>
+        <h2>Your Listings</h2>
+        <a href="{{ url_for('main.add_listing') }}"><button>Add Listing</button></a>
+        {% if listings %}
+            <ul>
+            {% for listing in listings %}
+                <li>{{ listing.listing_name }} - ${{ "%.2f"|format(listing.price) }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No listings available. Add your first listing now!</p>
+        {% endif %}
     {% else %}
         <h1>You are not logged in</h1>
         <a href="{{ url_for('main.login') }}">Login</a>

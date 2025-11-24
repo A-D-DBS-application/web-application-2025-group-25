@@ -1,0 +1,11 @@
+<!-- templates/listings.html -->
+<h1>All Listings</h1>
+{% if listings %}
+    <ul>
+    {% for listing in listings %}
+        <li>{{ listing.listing_name }} - ${{ "%.2f"|format(listing.price) }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No listings available.</p>
+{% endif %}
