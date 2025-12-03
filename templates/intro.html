@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Spotable ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .intro-hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 3rem;
+        }
+        .intro-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .intro-hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+        }
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: none;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        .content-card h2 {
+            color: #0d6efd;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .content-card p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        .how-it-works {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: none;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .how-it-works h2 {
+            color: #0d6efd;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+        .step-card {
+            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+        }
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .step-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        .btn-start {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 3rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+            color: white;
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+            color: white;
+        }
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(11, 94, 215, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .icon-box i {
+            font-size: 1.5rem;
+            color: #0d6efd;
+        }
+        @media (max-width: 768px) {
+            .intro-hero h1 {
+                font-size: 2rem;
+            }
+            .intro-hero p {
+                font-size: 1rem;
+            }
+            .content-card {
+                padding: 1.5rem;
+            }
+            .how-it-works {
+                padding: 2rem 1rem;
+            }
+            .how-it-works h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4 mb-5">
+        <!-- Hero Section -->
+        <div class="intro-hero text-center">
+            <h1>Welcome to the Spotable ROI Calculator</h1>
+            <p>Discover how much time and money your roofing company can save with AI-powered quote automation</p>
+        </div>
+
+        <!-- What is Spotable Section -->
+        <div class="content-card">
+            <h2>
+                <i class="bi bi-lightbulb-fill text-primary me-2"></i>
+                What is Spotable?
+            </h2>
+            <p>
+                Spotable builds AI technology that automatically generates quotes for roofing companies. 
+                Our advanced automation system eliminates the manual work involved in creating quotes, 
+                helping roofing companies streamline their operations and focus on what matters most—growing their business.
+            </p>
+        </div>
+
+        <!-- Why Manual Quoting Wastes Resources -->
+        <div class="content-card">
+            <h2>
+                <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                Why Manual Quoting Wastes Resources
+            </h2>
+            <p>
+                Traditional quote creation is a time-consuming process that drains your company's resources. 
+                Your team spends countless hours on administrative tasks, traveling to job sites, and measuring roofs manually. 
+                These hours add up quickly, reducing your team's capacity to take on more projects and generate additional revenue.
+            </p>
+            <p>
+                Every hour spent on manual quoting is an hour that could be invested in billable work, 
+                customer relationships, or business growth. The hidden costs of manual processes extend 
+                beyond just time—they impact your bottom line and limit your scalability.
+            </p>
+        </div>
+
+        <!-- How Spotable Saves Time & Money -->
+        <div class="content-card">
+            <h2>
+                <i class="bi bi-clock-history text-success me-2"></i>
+                How Spotable Saves Time & Money
+            </h2>
+            <p>
+                Spotable's AI technology helps roofing companies save significant costs in three critical areas:
+            </p>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-3">
+                    <div class="icon-box mx-auto">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <h5 class="text-center">Administrative Hours</h5>
+                    <p class="text-center text-muted">
+                        Automate quote generation and reduce time spent on paperwork and data entry
+                    </p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="icon-box mx-auto">
+                        <i class="bi bi-car-front"></i>
+                    </div>
+                    <h5 class="text-center">Travel Hours</h5>
+                    <p class="text-center text-muted">
+                        Minimize unnecessary trips to job sites with remote measurement capabilities
+                    </p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="icon-box mx-auto">
+                        <i class="bi bi-rulers"></i>
+                    </div>
+                    <h5 class="text-center">Measurement Hours</h5>
+                    <p class="text-center text-muted">
+                        Reduce on-site measurement time with AI-powered analysis and automation
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- What the ROI Calculator Measures -->
+        <div class="content-card">
+            <h2>
+                <i class="bi bi-calculator-fill text-info me-2"></i>
+                What the ROI Calculator Measures
+            </h2>
+            <p>
+                Our ROI calculator shows roofing companies exactly how much time and money they can save by using Spotable. 
+                Simply input your company data—including team size, hourly rates, project volume, and time spent on various tasks— 
+                and receive a comprehensive result sheet summarizing your estimated savings.
+            </p>
+            <p>
+                The calculator analyzes your current operations and provides detailed insights into:
+            </p>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    <strong>Monthly and annual cost savings</strong> from reduced administrative, travel, and measurement hours
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    <strong>Potential revenue increase</strong> from converting saved time into billable work
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    <strong>Total annual ROI</strong> including both cost savings and revenue opportunities
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    <strong>Workflow analysis</strong> to understand your company's operational profile
+                </li>
+            </ul>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h4 class="step-title">Enter Data</h4>
+                        <p class="step-description">
+                            Provide basic information about your company, including team size, hourly rates, and operational metrics
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h4 class="step-title">Review Savings</h4>
+                        <p class="step-description">
+                            See potential efficiency improvements and understand how automation can transform your operations
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h4 class="step-title">View Results</h4>
+                        <p class="step-description">
+                            Get a detailed ROI breakdown with charts and visualizations showing your estimated savings
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h4 class="step-title">Download Report</h4>
+                        <p class="step-description">
+                            Save and share your personalized report with stakeholders and decision-makers
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2 class="mb-4" style="color: #0d6efd;">Ready to Calculate Your ROI?</h2>
+            <p class="lead mb-4" style="color: #666;">
+                Get started in just a few minutes and discover how much your company can save with Spotable
+            </p>
+            <a href="{{ url_for('main.login') }}" class="btn btn-start">
+                <i class="bi bi-arrow-right-circle-fill me-2"></i>
+                Start Calculation
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
