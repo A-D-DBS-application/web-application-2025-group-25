@@ -361,23 +361,34 @@ def results():
         else:
             print(f"✓ Found existing Type_of_company with ID: {type_of_company.Type_of_company_id}")
         
-        # 2. Create new Company (always create new record for each calculation)
+        # 2. Find or create Company
         # Convert projects_per_month to projects_per_year
         projects_per_year = int(data['projects_per_month'] * 12)
         company_name = session.get('company_name')
         
-        # Always create a new company record for each calculation
-        # This allows tracking multiple calculations from the same company
-        print(f"➕ Creating new company record: {company_name}")
-        company = Company(
-            name=company_name,
-            employee_count=int(data['number_of_employees']),
-            projects_per_year=projects_per_year,
-            type_of_company_id=type_of_company.Type_of_company_id
-        )
-        db.session.add(company)
+        # Check if company with this projects_per_year already exists (UNIQUE constraint)
+        # If it exists, use that company and update it
+        company = Company.query.filter_by(projects_per_year=projects_per_year).first()
+        
+        if company:
+            # Update existing company with new data
+            print(f"✓ Found existing company with projects_per_year={projects_per_year}: {company.company_id}")
+            company.name = company_name
+            company.employee_count = int(data['number_of_employees'])
+            company.type_of_company_id = type_of_company.Type_of_company_id
+            print(f"✓ Updated company: {company.name} (ID: {company.company_id})")
+        else:
+            # Create new company
+            print(f"➕ Creating new company record: {company_name}")
+            company = Company(
+                name=company_name,
+                employee_count=int(data['number_of_employees']),
+                projects_per_year=projects_per_year,
+                type_of_company_id=type_of_company.Type_of_company_id
+            )
+            db.session.add(company)
         db.session.flush()  # Get the ID
-        print(f"✓ Created new company: {company.name} (ID: {company.company_id})")
+        print(f"✓ Company ready: {company.name} (ID: {company.company_id})")
         
         # 3. Find or create Pricing_ai_company (Spotable cost)
         spotable_annual_cost = int(SPOTABLE_COST_PER_MONTH * 12)
