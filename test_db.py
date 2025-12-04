@@ -70,21 +70,20 @@ with app.app_context():
         # 5. Create Calculator
         calculator = Calculator(
             annual_net_profit=15000.0,
-            total_cost_id=costs_saved.total_cost_id,
-            pricing_id=pricing.pricing_id,
-            created_at=datetime.utcnow()
+            cost_saved_id=costs_saved.cost_saved_id,
+            solution_id=None
         )
         db.session.add(calculator)
         db.session.commit()
         
         print("✓ Test records inserted successfully!")
         print(f"  - Company ID: {test_company.company_id}")
-        print(f"  - Calculator ID: {calculator.effect_id}")
+        print(f"  - Calculator ID: {calculator.calculator_id}")
         
         # Verify it was saved
-        saved_calc = Calculator.query.filter_by(effect_id=calculator.effect_id).first()
+        saved_calc = Calculator.query.filter_by(calculator_id=calculator.calculator_id).first()
         if saved_calc:
-            print(f"✓ Record verified! Calculator ID: {saved_calc.effect_id}, Profit: {saved_calc.annual_net_profit}")
+            print(f"✓ Record verified! Calculator ID: {saved_calc.calculator_id}, Profit: {saved_calc.annual_net_profit}")
             # Clean up test records
             db.session.delete(saved_calc)
             db.session.delete(costs_saved)

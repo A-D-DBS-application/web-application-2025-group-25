@@ -51,18 +51,32 @@ class PricingAICompany(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     ai_service_cost = db.Column(db.BigInteger, nullable=False, unique=True)
     
-    # Relationship
-    calculators = db.relationship('Calculator', backref='pricing', lazy=True)
+    # Note: No direct relationship to Calculator in database schema
     
     def __repr__(self):
         return f'<PricingAICompany {self.pricing_id} - {self.ai_service_cost}>'
+
+
+class AISolution(db.Model):
+    """Model for AI solutions - needed for foreign key reference"""
+    __tablename__ = 'AI_solution'
+    
+    solution_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False, unique=True)
+    customer_cost = db.Column(db.Float, nullable=True)
+    pricing_model = db.Column(db.Text, nullable=True)
+    partner_id = db.Column(db.BigInteger, nullable=True, unique=True)
+    
+    def __repr__(self):
+        return f'<AISolution {self.solution_id} - {self.name}>'
 
 
 class CostsSaved(db.Model):
     """Model for saved costs"""
     __tablename__ = 'Costs_saved'
     
-    total_cost_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    cost_saved_id = db.Column('Cost_saved_id', db.BigInteger, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     company_id = db.Column(db.BigInteger, db.ForeignKey('Company.company-id'), nullable=False)
     hours_spent_process = db.Column(db.Float, nullable=True)
@@ -72,19 +86,19 @@ class CostsSaved(db.Model):
     calculators = db.relationship('Calculator', backref='costs_saved', lazy=True)
     
     def __repr__(self):
-        return f'<CostsSaved {self.total_cost_id} - Company {self.company_id}>'
+        return f'<CostsSaved {self.cost_saved_id} - Company {self.company_id}>'
 
 
 class Calculator(db.Model):
     """Model for ROI calculator results"""
     __tablename__ = 'Calculator'
     
-    effect_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
-    annual_net_profit = db.Column(db.Float, nullable=True)
-    total_cost_id = db.Column(db.BigInteger, db.ForeignKey('Costs_saved.total_cost_id'), nullable=True)
-    pricing_id = db.Column(db.BigInteger, db.ForeignKey('Pricing_ai_company.pricing_id'), nullable=True)
-    created_at = db.Column(db.DateTime(timezone=True), nullable=True)
+    calculator_id = db.Column('calculator_id', db.BigInteger, primary_key=True, autoincrement=True)
+    annual_net_profit = db.Column('annuel_net_profit', db.Float, nullable=True)  # Note: database has typo "annuel"
+    cost_saved_id = db.Column('Cost_saved_id', db.BigInteger, db.ForeignKey('Costs_saved.Cost_saved_id'), nullable=True)
+    solution_id = db.Column('solution_id', db.BigInteger, db.ForeignKey('AI_solution.solution_id'), nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     
     def __repr__(self):
-        return f'<Calculator {self.effect_id} - Profit: {self.annual_net_profit}>'
+        return f'<Calculator {self.calculator_id} - Profit: {self.annual_net_profit}>'
 

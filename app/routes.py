@@ -420,9 +420,8 @@ def results():
         # annual_net_profit = total_annual_roi
         calculator = Calculator(
             annual_net_profit=results_data['total_annual_roi'],
-            total_cost_id=costs_saved.total_cost_id,
-            pricing_id=pricing.pricing_id,
-            created_at=datetime.utcnow()
+            cost_saved_id=costs_saved.cost_saved_id,
+            solution_id=None  # Not used in our calculator
         )
         db.session.add(calculator)
         
@@ -431,7 +430,7 @@ def results():
         db.session.commit()
         print(f"✅ Successfully saved ROI calculation to database for {session.get('company_name')}")
         print(f"   - Company ID: {company.company_id}")
-        print(f"   - Calculator ID: {calculator.effect_id}")
+        print(f"   - Calculator ID: {calculator.calculator_id}")
         print(f"   - Annual Net Profit: {calculator.annual_net_profit}")
         flash('✅ Data successfully saved to database!', 'success')
         
