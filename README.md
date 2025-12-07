@@ -19,8 +19,7 @@ SPRINT 3:
 Screenshots of UI (prototype): 
 intro page:
 <img width="1563" height="848" alt="image" src="https://github.com/user-attachments/assets/12900953-c8ba-48fe-890b-d78aebb799bc" />
-<img width="1559" height="852" alt="image" src="https://github.com/user-attachments/assets/8f6242c6-6398-4c4c-918a-1704c9d0845f" />
-<img width="1562" height="852" alt="image" src="https://github.com/user-attachments/assets/8609f460-2fa8-4c52-a6f5-20d19e1db698" />
+<img width="1566" height="748" alt="image" src="https://github.com/user-attachments/assets/67272164-bbe1-4262-aff4-7ca8983d1efb" />
 
 inlog page:
 <img width="1560" height="849" alt="image" src="https://github.com/user-attachments/assets/4cd9efec-5ef7-4506-850d-0d4806df2f4c" />
