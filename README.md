@@ -15,3 +15,33 @@ Link to audio/video recording of feedback sessions with partner:
 SPRINT 1:
 SPRINT 2:
 SPRINT 3:
+
+Screenshots of UI (prototype): 
+intro page:
+<img width="1563" height="848" alt="image" src="https://github.com/user-attachments/assets/12900953-c8ba-48fe-890b-d78aebb799bc" />
+<img width="1566" height="748" alt="image" src="https://github.com/user-attachments/assets/67272164-bbe1-4262-aff4-7ca8983d1efb" />
+
+inlog page:
+<img width="1560" height="849" alt="image" src="https://github.com/user-attachments/assets/4cd9efec-5ef7-4506-850d-0d4806df2f4c" />
+
+calculator page:
+<img width="1563" height="849" alt="image" src="https://github.com/user-attachments/assets/6c54884a-0402-4e88-9e47-009c1cc742c7" />
+
+result page:
+<img width="1552" height="849" alt="image" src="https://github.com/user-attachments/assets/577611f3-8596-44b1-9248-03451f6a6655" />
+<img width="1566" height="850" alt="image" src="https://github.com/user-attachments/assets/6efbaeca-bf92-4f15-b09f-ea5db4c4e13e" />
+<img width="1561" height="849" alt="image" src="https://github.com/user-attachments/assets/993ceb4c-0575-4a33-88c0-03ff08471174" />
+<img width="1562" height="509" alt="image" src="https://github.com/user-attachments/assets/5e16e355-5cc9-42ce-a78a-820111f2675f" />
+
+report page:
+<img width="1565" height="847" alt="image" src="https://github.com/user-attachments/assets/ba7d8106-e333-467f-889b-235eff7a59a5" />
+<img width="1566" height="839" alt="image" src="https://github.com/user-attachments/assets/c5c5dd44-b9e6-4512-9733-43023051c953" />
+<img width="1561" height="115" alt="image" src="https://github.com/user-attachments/assets/e6259289-070b-4f52-be0d-86d5af30eaad" />
+
+
+
+
+
+
+
+
