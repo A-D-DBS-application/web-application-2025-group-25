@@ -15,3 +15,5 @@ Link to audio/video recording of feedback sessions with partner:
 SPRINT 1:
 SPRINT 2:
 SPRINT 3:
+
+Screenshots: <img width="547" height="317" alt="image" src="https://github.com/user-attachments/assets/06bf0293-28a7-4cf5-bcef-1e791cc7dae7" />
