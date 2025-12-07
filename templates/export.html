@@ -21,6 +21,9 @@
             padding: 2rem;
             border-radius: 20px 20px 0 0;
         }
+        .export-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+        }
         .action-btn {
             border-radius: 12px;
             padding: 0.75rem 1.5rem;
@@ -39,17 +42,17 @@
             color: var(--spotable-deep-blue);
         }
         .whats-next-card {
-            background: linear-gradient(135deg, var(--spotable-pastel-blue) 0%, var(--spotable-light-blue) 100%);
+            background: linear-gradient(135deg, #E6F3FF 0%, #D4E4F5 100%);
             border: 2px solid var(--spotable-soft-blue);
             border-radius: 20px;
             box-shadow: 0 8px 30px rgba(47, 74, 128, 0.1);
         }
         .step-card {
-            background: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
             border-radius: 16px;
             padding: 1.5rem;
             box-shadow: 0 4px 20px rgba(47, 74, 128, 0.08);
-            border: 1px solid var(--spotable-muted-grey);
+            border: 1px solid rgba(107, 157, 209, 0.3);
             margin-bottom: 1rem;
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -81,14 +84,14 @@
                 <!-- Spotable Logo -->
                 <div class="spotable-logo-container mb-4">
                     <div class="spotable-logo-icon">S</div>
-                    <div class="spotable-logo-text">spotable</div>
+                    <div class="spotable-logo-text">Spotable</div>
                 </div>
 
                 <!-- Export & Share Header -->
                 <div class="card export-card">
                     <div class="export-header text-center">
-                        <h2 class="mb-2">
-                            <i class="bi bi-share-fill me-2"></i>
+                        <h2 class="mb-2" style="color: white;">
+                            <i class="bi bi-share-fill me-2" style="color: white;"></i>
                             Export & Share
                         </h2>
                         <p class="mb-0 opacity-75">Download your ROI report</p>
