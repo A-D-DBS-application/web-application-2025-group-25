@@ -35,8 +35,8 @@ result page:
 
 report page:
 <img width="1565" height="847" alt="image" src="https://github.com/user-attachments/assets/ba7d8106-e333-467f-889b-235eff7a59a5" />
-<img width="1559" height="848" alt="image" src="https://github.com/user-attachments/assets/cca9c63a-e011-46b5-a124-f7a2dbd4ad19" />
-<img width="1564" height="848" alt="image" src="https://github.com/user-attachments/assets/7d62a43a-916f-4918-96a5-ecca9eb69463" />
+<img width="1566" height="839" alt="image" src="https://github.com/user-attachments/assets/c5c5dd44-b9e6-4512-9733-43023051c953" />
+<img width="1561" height="115" alt="image" src="https://github.com/user-attachments/assets/e6259289-070b-4f52-be0d-86d5af30eaad" />
 
 
 
