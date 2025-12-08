@@ -293,7 +293,7 @@
                         </h2>
                         
                         <p class="lead-text mb-4">
-                            Your company currently spends approximately <strong>{{ results.current_hours_per_month }} hours per month</strong> on measurements and travel. 
+                            Your Company currently spends approximately <strong>{{ results.current_hours_per_month }} hours per month</strong> on measurements and travel. 
                             With Spotable, you could save <strong>€{{ results.monthly_savings|currency }}/month</strong> or <strong>€{{ results.yearly_savings|currency }}/year</strong>.
                         </p>
                         
@@ -430,8 +430,8 @@
                                     <i class="bi bi-award-fill me-2" style="color: #FF6B6B;"></i>
                                     Company Classification
                                 </h5>
-                                <div class="classification-tag mb-3">{{ results.workflow_analysis.cluster_label }}</div>
-                                <p class="mb-0" style="color: var(--spotable-grey-blue); font-size: 1.05rem; font-weight: 500;">{{ results.workflow_analysis.combined_description|title }}</p>
+                                <div class="classification-tag mb-3">{{ results.workflow_analysis.cluster_label|replace('company', 'Company') }}</div>
+                                <p class="mb-0" style="color: var(--spotable-grey-blue); font-size: 1.05rem; font-weight: 500;">{{ results.workflow_analysis.combined_description|replace('company', 'Company')|title }}</p>
                             </div>
                         </div>
                         
@@ -516,7 +516,7 @@
                                 <h5 class="workflow-title mb-4">Key Insights</h5>
                                 <div class="mb-4 d-flex align-items-start">
                                     <span class="insight-number">1</span>
-                                    <span class="flex-grow-1" style="line-height: 1.6;">Your {{ results.workflow_analysis.combined_description }} can benefit from comprehensive digital transformation</span>
+                                    <span class="flex-grow-1" style="line-height: 1.6;">Your {{ results.workflow_analysis.combined_description|replace('company', 'Company')|title }} can benefit from comprehensive digital transformation</span>
                                 </div>
                                 <div class="mb-0 d-flex align-items-start">
                                     <span class="insight-number">2</span>
