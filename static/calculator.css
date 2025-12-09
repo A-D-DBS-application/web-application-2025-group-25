@@ -1,0 +1,66 @@
+/* Calculator page specific styles */
+
+.calculator-card {
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-12);
+    border: none;
+    overflow: hidden;
+}
+
+.calculator-header {
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    padding: 2rem;
+}
+
+.calculator-header h3 {
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.section-divider {
+    border-top: 2px solid var(--spotable-muted-grey);
+    margin: 2rem 0;
+}
+
+.info-box {
+    background: linear-gradient(135deg, var(--spotable-pastel-blue) 0%, var(--spotable-light-blue) 100%);
+    border-left: 4px solid var(--spotable-soft-blue);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-box i {
+    color: var(--spotable-deep-blue);
+}
+
+.info-box strong {
+    color: var(--spotable-deep-blue);
+}
+
+.calculator-icon-blue {
+    color: var(--icon-blue);
+}
+
+.calculator-icon-green {
+    color: var(--icon-green);
+}
+
+.calculator-icon-red {
+    color: var(--icon-red);
+}
+
+.calculator-icon-purple {
+    color: var(--icon-purple);
+}
+
+.calculator-icon-orange {
+    color: var(--icon-orange);
+}
+
+.calculator-icon-cyan {
+    color: var(--icon-cyan);
+}
+

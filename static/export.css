@@ -1,0 +1,120 @@
+/* Export page specific styles */
+
+.export-card {
+    background: linear-gradient(135deg, var(--white-gradient-start) 0%, var(--white-gradient-end) 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-12);
+    border: none;
+    margin-bottom: 2rem;
+}
+
+.export-header {
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 20px 20px 0 0;
+}
+
+.action-btn {
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    border: none;
+}
+
+.btn-download {
+    background: linear-gradient(135deg, var(--spotable-aqua) 0%, var(--icon-light-green) 100%);
+    color: var(--spotable-deep-blue);
+    box-shadow: 0 4px 15px var(--shadow-aqua-30);
+}
+
+.btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-aqua-40);
+    color: var(--spotable-deep-blue);
+}
+
+.whats-next-card {
+    background: linear-gradient(135deg, var(--light-blue-gradient-start) 0%, var(--light-blue-gradient-end) 100%);
+    border: 2px solid var(--spotable-soft-blue);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-10);
+}
+
+.step-card {
+    background: linear-gradient(135deg, var(--white-gradient-start) 0%, var(--white-gradient-light) 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px var(--shadow-blue-08);
+    border: 1px solid var(--soft-blue-alpha-30);
+    margin-bottom: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px var(--shadow-blue-12);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    box-shadow: 0 2px 8px var(--shadow-blue-25);
+    flex-shrink: 0;
+}
+
+.export-title {
+    color: white;
+}
+
+.export-title-icon {
+    color: white;
+}
+
+.export-download-icon {
+    color: var(--spotable-aqua);
+}
+
+.export-download-title {
+    color: var(--spotable-deep-blue);
+}
+
+.export-download-text {
+    color: var(--spotable-grey-blue);
+}
+
+.export-whats-next-title {
+    color: var(--spotable-deep-blue);
+}
+
+.export-whats-next-icon {
+    color: var(--spotable-soft-blue);
+}
+
+.export-step-title {
+    color: var(--spotable-deep-blue);
+}
+
+.export-step-text {
+    color: var(--spotable-grey-blue);
+}
+
+.export-contact-strong {
+    color: var(--spotable-deep-blue);
+}
+
+.export-contact-link {
+    color: var(--spotable-deep-blue);
+    text-decoration: none;
+}
+

@@ -1,0 +1,362 @@
+/* Results page specific styles */
+
+.roi-header-card {
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    border: none;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue);
+}
+
+.roi-header-card .card-body {
+    padding: 2.5rem;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid var(--spotable-soft-blue);
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.icon-circle.icon-hours {
+    background: linear-gradient(135deg, var(--icon-blue) 0%, var(--spotable-soft-blue) 100%);
+}
+
+.icon-circle.icon-cost {
+    background: linear-gradient(135deg, var(--icon-green) 0%, var(--icon-light-green) 100%);
+}
+
+.icon-circle.icon-revenue {
+    background: linear-gradient(135deg, var(--spotable-light-blue) 0%, var(--spotable-soft-blue) 100%);
+}
+
+.divider-line {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 1.5rem 0;
+}
+
+.metric-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+}
+
+.metric-inline:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.chart-container {
+    background: linear-gradient(135deg, var(--white-gradient-start) 0%, var(--white-gradient-light) 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px var(--shadow-light);
+    border: 1px solid rgba(107, 157, 209, 0.2);
+    margin-bottom: 2rem;
+}
+
+.lead-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.star-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.workflow-wrapper-card {
+    background: linear-gradient(135deg, var(--light-blue-gradient-start) 0%, var(--light-blue-gradient-end) 100%);
+    border: 3px solid var(--spotable-soft-blue);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-15);
+    margin-bottom: 1.5rem;
+}
+
+.workflow-card {
+    background: linear-gradient(135deg, var(--white-gradient-start) 0%, var(--white-gradient-light) 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow-blue-12);
+    border: 2px solid var(--soft-blue-alpha-30);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.workflow-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px var(--shadow-blue-20);
+    border-color: var(--spotable-soft-blue);
+}
+
+.workflow-metric-card {
+    background: linear-gradient(135deg, var(--white-gradient-start) 0%, var(--white-gradient-light) 100%);
+    border-radius: 14px;
+    box-shadow: 0 3px 12px var(--shadow-light);
+    border: 2px solid var(--soft-blue-alpha-20);
+    padding: 1.75rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.workflow-metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--spotable-soft-blue), var(--spotable-aqua));
+}
+
+.workflow-metric-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px var(--shadow-blue-20);
+    border-color: var(--spotable-soft-blue);
+}
+
+.workflow-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.workflow-metric-card:hover .workflow-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.tag-pill {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    box-shadow: 0 3px 10px var(--shadow-blue-30);
+    transition: all 0.3s ease;
+}
+
+.workflow-metric-card:hover .tag-pill {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px var(--shadow-blue-30);
+}
+
+.classification-tag {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--icon-green) 0%, var(--icon-light-green) 100%);
+    color: var(--spotable-deep-blue);
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 15px var(--shadow-green-40);
+    transition: all 0.3s ease;
+}
+
+.classification-tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px var(--shadow-green-50);
+}
+
+.insight-number {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-right: 1rem;
+    box-shadow: 0 2px 8px var(--shadow-blue);
+    flex-shrink: 0;
+}
+
+.workflow-title {
+    color: var(--spotable-deep-blue);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.75rem;
+}
+
+.workflow-title-icon {
+    margin-right: 0.75rem;
+    color: var(--icon-red);
+    font-size: 2rem;
+}
+
+.breakdown-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: none;
+}
+
+.breakdown-header {
+    border-bottom: 2px solid var(--spotable-muted-grey);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.breakdown-header h4 {
+    color: var(--spotable-deep-blue);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.breakdown-row {
+    padding: 1.25rem 0;
+}
+
+.breakdown-row:not(:last-child) {
+    border-bottom: 2px solid var(--spotable-muted-grey);
+    margin-bottom: 0.5rem;
+}
+
+.breakdown-row.total-row {
+    border-top: 2px solid var(--spotable-soft-blue);
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+}
+
+.breakdown-title {
+    color: var(--spotable-deep-blue);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.breakdown-description {
+    color: var(--spotable-grey-blue);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.breakdown-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--spotable-deep-blue);
+    text-align: right;
+}
+
+.breakdown-value.negative {
+    color: var(--icon-red);
+}
+
+.breakdown-row.total-row .breakdown-value {
+    font-size: 1.5rem;
+    color: var(--spotable-deep-blue);
+}
+
+/* Inline style replacements */
+.roi-header-title {
+    color: white;
+}
+
+.roi-header-star-icon {
+    color: white;
+}
+
+.workflow-classification-title {
+    color: var(--spotable-deep-blue);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.workflow-classification-icon {
+    color: var(--icon-red);
+}
+
+.workflow-classification-description {
+    color: var(--spotable-grey-blue);
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.workflow-metric-title {
+    font-weight: 700;
+    color: var(--spotable-deep-blue);
+    font-size: 1.05rem;
+}
+
+.workflow-insight-text {
+    line-height: 1.6;
+}
+
+.breakdown-total-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.workflow-breakdown-title {
+    font-size: 1.5rem;
+}
+
+.workflow-icon-team {
+    background: linear-gradient(135deg, var(--icon-blue) 0%, var(--spotable-soft-blue) 100%);
+}
+
+.workflow-icon-wage {
+    background: linear-gradient(135deg, var(--icon-green) 0%, var(--icon-light-green) 100%);
+}
+
+.workflow-icon-project {
+    background: linear-gradient(135deg, var(--icon-red) 0%, var(--icon-light-red) 100%);
+}
+
+.workflow-icon-quote {
+    background: linear-gradient(135deg, var(--icon-purple) 0%, #BB8FCE 100%);
+}
+
+.workflow-icon-measurement {
+    background: linear-gradient(135deg, var(--icon-orange) 0%, #FFB84D 100%);
+}
+
+.workflow-icon-travel {
+    background: linear-gradient(135deg, var(--icon-cyan) 0%, #40E0D0 100%);
+}
+

@@ -10,6 +10,42 @@
     --spotable-pastel-blue: #D4E4F5;
     --spotable-neutral-grey: #F5F7FA;
     
+    /* Additional color variables for icons and accents */
+    --icon-blue: #4A90E2;
+    --icon-green: #50C878;
+    --icon-red: #FF6B6B;
+    --icon-purple: #9B59B6;
+    --icon-orange: #FFA500;
+    --icon-cyan: #00CED1;
+    --icon-light-red: #FF8E8E;
+    --icon-light-green: #8BC4A8;
+    --shadow-blue: rgba(47, 74, 128, 0.15);
+    --shadow-light: rgba(47, 74, 128, 0.08);
+    --shadow-medium: rgba(47, 74, 128, 0.12);
+    --white-gradient-start: #ffffff;
+    --white-gradient-end: #f0f8ff;
+    --white-gradient-light: #f8fbff;
+    --light-blue-gradient-start: #E6F3FF;
+    --light-blue-gradient-end: #D4E4F5;
+    
+    /* Shadow variables */
+    --shadow-blue-08: rgba(47, 74, 128, 0.08);
+    --shadow-blue-10: rgba(47, 74, 128, 0.1);
+    --shadow-blue-12: rgba(47, 74, 128, 0.12);
+    --shadow-blue-15: rgba(47, 74, 128, 0.15);
+    --shadow-blue-20: rgba(47, 74, 128, 0.2);
+    --shadow-blue-25: rgba(47, 74, 128, 0.25);
+    --shadow-blue-30: rgba(47, 74, 128, 0.3);
+    --shadow-blue-35: rgba(47, 74, 128, 0.35);
+    --shadow-green-40: rgba(80, 200, 120, 0.4);
+    --shadow-green-50: rgba(80, 200, 120, 0.5);
+    --shadow-green-80: rgba(80, 200, 120, 0.8);
+    --shadow-green-100: rgba(80, 200, 120, 1);
+    --shadow-aqua-30: rgba(139, 196, 168, 0.3);
+    --shadow-aqua-40: rgba(139, 196, 168, 0.4);
+    --soft-blue-alpha-20: rgba(107, 157, 209, 0.2);
+    --soft-blue-alpha-30: rgba(107, 157, 209, 0.3);
+    
     /* Typography */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }

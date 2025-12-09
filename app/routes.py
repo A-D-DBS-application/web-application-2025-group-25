@@ -148,6 +148,251 @@ def classify_company(data):
     }
 
 
+def calculate_roi(data, monthly_cost, is_ai_partner=False):
+    """
+    Modular ROI calculation function - reusable for both Spotable and AI partners
+    Returns a dictionary with all calculated ROI metrics
+    """
+    # Calculate current total hours spent
+    current_hours_per_month = data['measurement_hours_per_month'] + data['travel_hours_per_month']
+    
+    # Time saved calculations
+    time_saved_measurements = data['measurement_hours_per_month'] * 0.5
+    time_saved_travel = data['travel_hours_per_month'] * 0.7
+    time_saved_quotes = data['quotes_per_month'] * 0.5
+    
+    total_monthly_time_saved = (
+        time_saved_measurements +
+        time_saved_travel +
+        time_saved_quotes
+    )
+    
+    # Hours with solution (only measurement and travel hours saved, not quotes)
+    hours_saved_measurement_travel = time_saved_measurements + time_saved_travel
+    hours_with_solution_per_month = max(0, current_hours_per_month - hours_saved_measurement_travel)
+    
+    # Saved = Current - With Solution (for the chart)
+    hours_saved_for_chart = current_hours_per_month - hours_with_solution_per_month
+    
+    # Monthly and annual calculations (based on total time saved including quotes)
+    monthly_savings = total_monthly_time_saved * data['average_hourly_wage']
+    yearly_savings = monthly_savings * 12
+    
+    # Hours saved per year
+    hours_saved_per_year = total_monthly_time_saved * 12
+    
+    # Cost savings (annual) - savings from reduced admin time
+    cost_savings_annual = yearly_savings
+    
+    # Extra revenue - potential billable hours from time saved
+    extra_revenue = total_monthly_time_saved * data['average_hourly_wage'] * 1.5 * 12
+    
+    # Total annual ROI (cost savings + extra revenue - annual solution cost)
+    annual_solution_cost = monthly_cost * 12
+    total_annual_roi = cost_savings_annual + extra_revenue - annual_solution_cost
+    
+    # Detailed ROI Breakdown calculations
+    hours_saved_measurement_travel_per_year = hours_saved_measurement_travel * 12
+    time_savings_cost = hours_saved_measurement_travel_per_year * data['average_hourly_wage']
+    
+    # Workflow Analysis
+    workflow_analysis = classify_company(data)
+    
+    return {
+        'current_hours_per_month': round(current_hours_per_month, 1),
+        'hours_with_spotable_per_month': round(hours_with_solution_per_month, 1),
+        'hours_saved_for_chart': round(hours_saved_for_chart, 1),
+        'total_monthly_time_saved': round(total_monthly_time_saved, 1),
+        'hours_saved_per_year': round(hours_saved_per_year, 0),
+        'monthly_savings': round(monthly_savings, 2),
+        'yearly_savings': round(yearly_savings, 2),
+        'cost_savings_annual': round(cost_savings_annual, 2),
+        'extra_revenue': round(extra_revenue, 2),
+        'total_annual_roi': round(total_annual_roi, 2),
+        'spotable_cost_monthly': monthly_cost,
+        'spotable_cost_annual': annual_solution_cost,
+        'hours_saved_measurement_travel_per_year': round(hours_saved_measurement_travel_per_year, 0),
+        'time_savings_cost': round(time_savings_cost, 2),
+        'average_hourly_wage': round(data['average_hourly_wage'], 2),
+        'workflow_analysis': workflow_analysis,
+        'raw_data': data
+    }
+
+
+def require_login():
+    """Helper function to check if user is logged in"""
+    if 'email' not in session or 'company_name' not in session:
+        return redirect(url_for('main.login'))
+    return None
+
+
+def require_calculator_data():
+    """Helper function to check if calculator data exists"""
+    if 'calculator_data' not in session:
+        return redirect(url_for('main.calculator'))
+    return None
+
+
+def check_database_connection():
+    """Check if database connection is available"""
+    try:
+        db.engine.connect()
+        return True
+    except Exception as conn_error:
+        print(f"❌ Database connection failed: {conn_error}")
+        # Don't show flash message to user - only log to console
+        return False
+
+
+def find_or_create_type_of_company(company_type_name):
+    """Find or create Type_of_company record"""
+    print(f"🔍 Looking for company type: {company_type_name}")
+    type_of_company = TypeOfCompany.query.filter_by(sector=company_type_name).first()
+    if not type_of_company:
+        print(f"➕ Creating new company type: {company_type_name}")
+        type_of_company = TypeOfCompany(sector=company_type_name)
+        db.session.add(type_of_company)
+        db.session.flush()
+        print(f"✓ Created Type_of_company with ID: {type_of_company.Type_of_company_id}")
+    else:
+        print(f"✓ Found existing Type_of_company with ID: {type_of_company.Type_of_company_id}")
+    return type_of_company
+
+
+def find_or_create_company(company_name, data, type_of_company):
+    """Find or create Company record"""
+    projects_per_year = int(data['projects_per_month'] * 12)
+    company = Company.query.filter_by(projects_per_year=projects_per_year).first()
+    
+    if company:
+        print(f"✓ Found existing company with projects_per_year={projects_per_year}: {company.company_id}")
+        company.name = company_name
+        company.employee_count = int(data['number_of_employees'])
+        company.type_of_company_id = type_of_company.Type_of_company_id
+        print(f"✓ Updated company: {company.name} (ID: {company.company_id})")
+    else:
+        print(f"➕ Creating new company record: {company_name}")
+        company = Company(
+            name=company_name,
+            employee_count=int(data['number_of_employees']),
+            projects_per_year=projects_per_year,
+            type_of_company_id=type_of_company.Type_of_company_id
+        )
+        db.session.add(company)
+    db.session.flush()
+    print(f"✓ Company ready: {company.name} (ID: {company.company_id})")
+    return company
+
+
+def find_or_create_pricing(spotable_cost):
+    """Find or create Pricing_ai_company record"""
+    spotable_annual_cost = int(spotable_cost * 12)
+    print(f"🔍 Looking for Pricing_ai_company with cost: {spotable_annual_cost}")
+    pricing = PricingAICompany.query.filter_by(ai_service_cost=spotable_annual_cost).first()
+    if not pricing:
+        print(f"➕ Creating new Pricing_ai_company with cost: {spotable_annual_cost}")
+        pricing = PricingAICompany(ai_service_cost=spotable_annual_cost)
+        db.session.add(pricing)
+        db.session.flush()
+        print(f"✓ Created Pricing_ai_company with ID: {pricing.pricing_id}")
+    else:
+        print(f"✓ Found existing Pricing_ai_company with ID: {pricing.pricing_id}")
+    return pricing
+
+
+def create_costs_saved(company, data):
+    """Create Costs_saved record"""
+    total_hours_spent = data['measurement_hours_per_month'] + data['travel_hours_per_month']
+    hours_spent_per_year = total_hours_spent * 12
+    
+    costs_saved = CostsSaved(
+        company_id=company.company_id,
+        hours_spent_process=hours_spent_per_year
+    )
+    db.session.add(costs_saved)
+    db.session.flush()
+    return costs_saved
+
+
+def create_calculator(costs_saved, results_data):
+    """Create Calculator record"""
+    calculator = Calculator(
+        annual_net_profit=results_data['total_annual_roi'],
+        cost_saved_id=costs_saved.cost_saved_id,
+        solution_id=None
+    )
+    db.session.add(calculator)
+    db.session.flush()
+    return calculator
+
+
+def create_or_update_clustering_result(company, calculator, workflow_analysis):
+    """Create or update Clustering_Result record"""
+    cluster_name = workflow_analysis.get('cluster_label', 'Standard Operations Company')
+    existing_clustering = ClusteringResult.query.filter_by(company_id=company.company_id).first()
+    
+    if existing_clustering:
+        existing_clustering.calculator_id = calculator.calculator_id
+        existing_clustering.cluster_name = cluster_name
+        print(f"✓ Updated existing Clustering_Result for company {company.company_id}")
+    else:
+        clustering_result = ClusteringResult(
+            company_id=company.company_id,
+            calculator_id=calculator.calculator_id,
+            cluster_name=cluster_name
+        )
+        db.session.add(clustering_result)
+        print(f"✓ Created new Clustering_Result for company {company.company_id}")
+
+
+def save_to_database(company_name, company_type_name, data, results_data, workflow_analysis):
+    """Helper function to save ROI calculation to database"""
+    try:
+        # Test database connection first
+        if not check_database_connection():
+            return False
+        
+        # 1. Find or create Type_of_company
+        type_of_company = find_or_create_type_of_company(company_type_name)
+        
+        # 2. Find or create Company
+        company = find_or_create_company(company_name, data, type_of_company)
+        
+        # 3. Find or create Pricing_ai_company (Spotable cost)
+        find_or_create_pricing(SPOTABLE_COST_PER_MONTH)
+        
+        # 4. Create Costs_saved
+        costs_saved = create_costs_saved(company, data)
+        
+        # 5. Create Calculator (ROI calculation)
+        calculator = create_calculator(costs_saved, results_data)
+        
+        # 6. Create or update Clustering_Result
+        create_or_update_clustering_result(company, calculator, workflow_analysis)
+        
+        # Commit all changes
+        print("💾 Committing to database...")
+        db.session.commit()
+        cluster_name = workflow_analysis.get('cluster_label', 'Standard Operations Company')
+        print(f"✅ Successfully saved ROI calculation to database for {company_name}")
+        print(f"   - Company ID: {company.company_id}")
+        print(f"   - Calculator ID: {calculator.calculator_id}")
+        print(f"   - Annual Net Profit: {calculator.annual_net_profit}")
+        print(f"   - Cluster Name: {cluster_name}")
+        # Don't show flash message to user - only log to console
+        return True
+        
+    except Exception as e:
+        db.session.rollback()
+        import traceback
+        error_msg = str(e)
+        print(f"❌ Error saving to database: {error_msg}")
+        print("Full traceback:")
+        traceback.print_exc()
+        # Don't show flash message to user - only log to console
+        return False
+
+
 @bp.route('/')
 def index():
     """Redirect to intro page"""
@@ -158,34 +403,6 @@ def index():
 def intro():
     """Introduction page - explains Spotable and the ROI calculator"""
     return render_template('intro.html')
-
-
-@bp.route('/test-db')
-def test_db():
-    """Test database connection and show status"""
-    from flask import jsonify
-    try:
-        # Test connection
-        conn = db.engine.connect()
-        conn.close()
-        
-        # Try a simple query
-        count = Company.query.count()
-        calc_count = Calculator.query.count()
-        
-        return jsonify({
-            'status': 'success',
-            'message': 'Database connection successful',
-            'company_count': count,
-            'calculator_count': calc_count,
-            'connection_string': str(db.engine.url).replace(db.engine.url.password, '***')
-        })
-    except Exception as e:
-        return jsonify({
-            'status': 'error',
-            'message': str(e),
-            'connection_string': str(db.engine.url).replace(db.engine.url.password, '***') if hasattr(db.engine, 'url') else 'Unknown'
-        }), 500
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -215,8 +432,9 @@ def login():
 def calculator():
     """Calculator page - shows form and processes input"""
     # Check if user is logged in (has session data)
-    if 'email' not in session or 'company_name' not in session:
-        return redirect(url_for('main.login'))
+    redirect_response = require_login()
+    if redirect_response:
+        return redirect_response
     
     if request.method == 'POST':
         # Get all form data
@@ -254,283 +472,48 @@ def calculator():
 @bp.route('/results')
 def results():
     """Results page - displays ROI calculations"""
-    # Check if user is logged in
-    if 'email' not in session or 'company_name' not in session:
-        return redirect(url_for('main.login'))
+    # Check authentication and data
+    redirect_response = require_login()
+    if redirect_response:
+        return redirect_response
     
-    # Check if calculator data exists
-    if 'calculator_data' not in session:
-        return redirect(url_for('main.calculator'))
+    redirect_response = require_calculator_data()
+    if redirect_response:
+        return redirect_response
     
     data = session['calculator_data']
     
-    # Calculate current total hours spent
-    current_hours_per_month = data['measurement_hours_per_month'] + data['travel_hours_per_month']
+    # Use modular ROI calculation function
+    results_data = calculate_roi(data, SPOTABLE_COST_PER_MONTH, is_ai_partner=False)
     
-    # ROI Calculation Logic
-    time_saved_measurements = data['measurement_hours_per_month'] * 0.5
-    time_saved_travel = data['travel_hours_per_month'] * 0.7
-    time_saved_quotes = data['quotes_per_month'] * 0.5
+    # Save to database
+    company_name = session.get('company_name')
+    company_type_name = session.get('company_type', 'others')
+    workflow_analysis = results_data.get('workflow_analysis', {})
     
-    total_monthly_time_saved = (
-        time_saved_measurements +
-        time_saved_travel +
-        time_saved_quotes
-    )
-    
-    # Hours with Spotable (only measurement and travel hours saved, not quotes)
-    hours_saved_measurement_travel = time_saved_measurements + time_saved_travel
-    hours_with_spotable_per_month = max(0, current_hours_per_month - hours_saved_measurement_travel)
-    
-    # Saved = Current - With Spotable (for the chart)
-    hours_saved_for_chart = current_hours_per_month - hours_with_spotable_per_month
-    
-    # Monthly and annual calculations (based on total time saved including quotes)
-    monthly_savings = total_monthly_time_saved * data['average_hourly_wage']
-    yearly_savings = monthly_savings * 12
-    
-    # Hours saved per year
-    hours_saved_per_year = total_monthly_time_saved * 12
-    
-    # Cost savings (annual) - savings from reduced admin time
-    cost_savings_annual = yearly_savings
-    
-    # Extra revenue - potential billable hours from time saved (assuming saved time can be used for billable work)
-    # This represents the revenue potential if saved time is used for billable projects
-    extra_revenue = total_monthly_time_saved * data['average_hourly_wage'] * 1.5 * 12  # 1.5x multiplier for billable rate
-    
-    # Total annual ROI (cost savings + extra revenue - annual spotable cost)
-    annual_spotable_cost = SPOTABLE_COST_PER_MONTH * 12
-    total_annual_roi = cost_savings_annual + extra_revenue - annual_spotable_cost
-    
-    # Detailed ROI Breakdown calculations
-    hours_saved_measurement_travel_per_year = hours_saved_measurement_travel * 12
-    time_savings_cost = hours_saved_measurement_travel_per_year * data['average_hourly_wage']
-    
-    # Workflow Analysis
-    workflow_analysis = classify_company(data)
-    
-    results_data = {
-        'current_hours_per_month': round(current_hours_per_month, 1),
-        'hours_with_spotable_per_month': round(hours_with_spotable_per_month, 1),
-        'hours_saved_for_chart': round(hours_saved_for_chart, 1),
-        'total_monthly_time_saved': round(total_monthly_time_saved, 1),
-        'hours_saved_per_year': round(hours_saved_per_year, 0),
-        'monthly_savings': round(monthly_savings, 2),
-        'yearly_savings': round(yearly_savings, 2),
-        'cost_savings_annual': round(cost_savings_annual, 2),
-        'extra_revenue': round(extra_revenue, 2),
-        'total_annual_roi': round(total_annual_roi, 2),
-        'spotable_cost_monthly': SPOTABLE_COST_PER_MONTH,
-        'spotable_cost_annual': annual_spotable_cost,
-        # Detailed ROI Breakdown
-        'hours_saved_measurement_travel_per_year': round(hours_saved_measurement_travel_per_year, 0),
-        'time_savings_cost': round(time_savings_cost, 2),
-        'average_hourly_wage': round(data['average_hourly_wage'], 2),
-        # Workflow Analysis
-        'workflow_analysis': workflow_analysis,
-        'raw_data': data  # For displaying in workflow breakdown
-    }
-    
-    # Save to database according to ERD schema
-    try:
-        # Test database connection first
-        try:
-            db.engine.connect()
-        except Exception as conn_error:
-            print(f"❌ Database connection failed: {conn_error}")
-            flash(f'Database connection error: {str(conn_error)[:100]}', 'error')
-            return render_template('results.html',
-                                 email=session.get('email'),
-                                 company_name=session.get('company_name'),
-                                 results=results_data)
-        
-        # 1. Find or create Type_of_company
-        company_type_name = session.get('company_type', 'others')
-        print(f"🔍 Looking for company type: {company_type_name}")
-        type_of_company = TypeOfCompany.query.filter_by(sector=company_type_name).first()
-        if not type_of_company:
-            print(f"➕ Creating new company type: {company_type_name}")
-            type_of_company = TypeOfCompany(
-                sector=company_type_name
-            )
-            db.session.add(type_of_company)
-            db.session.flush()  # Get the ID
-            print(f"✓ Created Type_of_company with ID: {type_of_company.Type_of_company_id}")
-        else:
-            print(f"✓ Found existing Type_of_company with ID: {type_of_company.Type_of_company_id}")
-        
-        # 2. Find or create Company
-        # Convert projects_per_month to projects_per_year
-        projects_per_year = int(data['projects_per_month'] * 12)
-        company_name = session.get('company_name')
-        
-        # Check if company with this projects_per_year already exists (UNIQUE constraint)
-        # If it exists, use that company and update it
-        company = Company.query.filter_by(projects_per_year=projects_per_year).first()
-        
-        if company:
-            # Update existing company with new data
-            print(f"✓ Found existing company with projects_per_year={projects_per_year}: {company.company_id}")
-            company.name = company_name
-            company.employee_count = int(data['number_of_employees'])
-            company.type_of_company_id = type_of_company.Type_of_company_id
-            print(f"✓ Updated company: {company.name} (ID: {company.company_id})")
-        else:
-            # Create new company
-            print(f"➕ Creating new company record: {company_name}")
-            company = Company(
-                name=company_name,
-                employee_count=int(data['number_of_employees']),
-                projects_per_year=projects_per_year,
-                type_of_company_id=type_of_company.Type_of_company_id
-            )
-            db.session.add(company)
-        db.session.flush()  # Get the ID
-        print(f"✓ Company ready: {company.name} (ID: {company.company_id})")
-        
-        # 3. Find or create Pricing_ai_company (Spotable cost)
-        spotable_annual_cost = int(SPOTABLE_COST_PER_MONTH * 12)
-        print(f"🔍 Looking for Pricing_ai_company with cost: {spotable_annual_cost}")
-        pricing = PricingAICompany.query.filter_by(ai_service_cost=spotable_annual_cost).first()
-        if not pricing:
-            print(f"➕ Creating new Pricing_ai_company with cost: {spotable_annual_cost}")
-            pricing = PricingAICompany(ai_service_cost=spotable_annual_cost)
-            db.session.add(pricing)
-            db.session.flush()  # Get the ID
-            print(f"✓ Created Pricing_ai_company with ID: {pricing.pricing_id}")
-        else:
-            print(f"✓ Found existing Pricing_ai_company with ID: {pricing.pricing_id}")
-        
-        # 4. Create Costs_saved
-        # Calculate total hours spent (measurement + travel)
-        total_hours_spent = data['measurement_hours_per_month'] + data['travel_hours_per_month']
-        hours_spent_per_year = total_hours_spent * 12
-        
-        costs_saved = CostsSaved(
-            company_id=company.company_id,
-            hours_spent_process=hours_spent_per_year
-        )
-        db.session.add(costs_saved)
-        db.session.flush()  # Get the ID
-        
-        # 5. Create Calculator (ROI calculation)
-        # annual_net_profit = total_annual_roi
-        calculator = Calculator(
-            annual_net_profit=results_data['total_annual_roi'],
-            cost_saved_id=costs_saved.cost_saved_id,
-            solution_id=None  # Not used in our calculator
-        )
-        db.session.add(calculator)
-        db.session.flush()  # Get the ID
-        
-        # 6. Create or update Clustering_Result (save clustering algorithm result)
-        cluster_name = workflow_analysis.get('cluster_label', 'Standard Operations Company')
-        
-        # Check if clustering result already exists for this company
-        existing_clustering = ClusteringResult.query.filter_by(company_id=company.company_id).first()
-        
-        if existing_clustering:
-            # Update existing clustering result
-            existing_clustering.calculator_id = calculator.calculator_id
-            existing_clustering.cluster_name = cluster_name
-            print(f"✓ Updated existing Clustering_Result for company {company.company_id}")
-        else:
-            # Create new clustering result
-            clustering_result = ClusteringResult(
-                company_id=company.company_id,
-                calculator_id=calculator.calculator_id,
-                cluster_name=cluster_name
-            )
-            db.session.add(clustering_result)
-            print(f"✓ Created new Clustering_Result for company {company.company_id}")
-        
-        # Commit all changes
-        print("💾 Committing to database...")
-        db.session.commit()
-        print(f"✅ Successfully saved ROI calculation to database for {session.get('company_name')}")
-        print(f"   - Company ID: {company.company_id}")
-        print(f"   - Calculator ID: {calculator.calculator_id}")
-        print(f"   - Annual Net Profit: {calculator.annual_net_profit}")
-        print(f"   - Cluster Name: {cluster_name}")
-        flash('✅ Data successfully saved to database!', 'success')
-        
-    except Exception as e:
-        db.session.rollback()
-        import traceback
-        error_msg = str(e)
-        print(f"❌ Error saving to database: {error_msg}")
-        print("Full traceback:")
-        traceback.print_exc()
-        # Show detailed error to user
-        flash(f'⚠️ Database save failed: {error_msg[:150]}', 'error')
+    save_to_database(company_name, company_type_name, data, results_data, workflow_analysis)
     
     return render_template('results.html',
                          email=session.get('email'),
-                         company_name=session.get('company_name'),
+                         company_name=company_name,
                          results=results_data)
 
 
 @bp.route('/export')
 def export():
     """Export & Share page - allows downloading and emailing the report"""
-    # Check if user is logged in
-    if 'email' not in session or 'company_name' not in session:
-        return redirect(url_for('main.login'))
+    # Check authentication and data
+    redirect_response = require_login()
+    if redirect_response:
+        return redirect_response
     
-    # Check if calculator data exists
-    if 'calculator_data' not in session:
-        return redirect(url_for('main.calculator'))
+    redirect_response = require_calculator_data()
+    if redirect_response:
+        return redirect_response
     
-    # Recalculate results for display
+    # Use modular ROI calculation function
     data = session['calculator_data']
-    current_hours_per_month = data['measurement_hours_per_month'] + data['travel_hours_per_month']
-    
-    time_saved_measurements = data['measurement_hours_per_month'] * 0.5
-    time_saved_travel = data['travel_hours_per_month'] * 0.7
-    time_saved_quotes = data['quotes_per_month'] * 0.5
-    
-    total_monthly_time_saved = (
-        time_saved_measurements +
-        time_saved_travel +
-        time_saved_quotes
-    )
-    
-    hours_saved_measurement_travel = time_saved_measurements + time_saved_travel
-    hours_with_spotable_per_month = max(0, current_hours_per_month - hours_saved_measurement_travel)
-    hours_saved_for_chart = current_hours_per_month - hours_with_spotable_per_month
-    
-    monthly_savings = total_monthly_time_saved * data['average_hourly_wage']
-    yearly_savings = monthly_savings * 12
-    hours_saved_per_year = total_monthly_time_saved * 12
-    cost_savings_annual = yearly_savings
-    extra_revenue = total_monthly_time_saved * data['average_hourly_wage'] * 1.5 * 12
-    annual_spotable_cost = SPOTABLE_COST_PER_MONTH * 12
-    total_annual_roi = cost_savings_annual + extra_revenue - annual_spotable_cost
-    hours_saved_measurement_travel_per_year = hours_saved_measurement_travel * 12
-    time_savings_cost = hours_saved_measurement_travel_per_year * data['average_hourly_wage']
-    
-    workflow_analysis = classify_company(data)
-    
-    results_data = {
-        'current_hours_per_month': round(current_hours_per_month, 1),
-        'hours_with_spotable_per_month': round(hours_with_spotable_per_month, 1),
-        'hours_saved_for_chart': round(hours_saved_for_chart, 1),
-        'total_monthly_time_saved': round(total_monthly_time_saved, 1),
-        'hours_saved_per_year': round(hours_saved_per_year, 0),
-        'monthly_savings': round(monthly_savings, 2),
-        'yearly_savings': round(yearly_savings, 2),
-        'cost_savings_annual': round(cost_savings_annual, 2),
-        'extra_revenue': round(extra_revenue, 2),
-        'total_annual_roi': round(total_annual_roi, 2),
-        'spotable_cost_monthly': SPOTABLE_COST_PER_MONTH,
-        'spotable_cost_annual': annual_spotable_cost,
-        'hours_saved_measurement_travel_per_year': round(hours_saved_measurement_travel_per_year, 0),
-        'time_savings_cost': round(time_savings_cost, 2),
-        'average_hourly_wage': round(data['average_hourly_wage'], 2),
-        'workflow_analysis': workflow_analysis,
-        'raw_data': data
-    }
+    results_data = calculate_roi(data, SPOTABLE_COST_PER_MONTH, is_ai_partner=False)
     
     return render_template('export.html',
                          email=session.get('email'),
@@ -542,39 +525,24 @@ def export():
 @bp.route('/download_report')
 def download_report():
     """Download report as JSON file"""
-    if 'calculator_data' not in session:
-        return redirect(url_for('main.calculator'))
+    redirect_response = require_calculator_data()
+    if redirect_response:
+        return redirect_response
     
-    # Recalculate results for report
+    # Use modular ROI calculation function
     data = session['calculator_data']
-    current_hours_per_month = data['measurement_hours_per_month'] + data['travel_hours_per_month']
+    results_data = calculate_roi(data, SPOTABLE_COST_PER_MONTH, is_ai_partner=False)
     
-    time_saved_measurements = data['measurement_hours_per_month'] * 0.5
-    time_saved_travel = data['travel_hours_per_month'] * 0.7
-    time_saved_quotes = data['quotes_per_month'] * 0.5
-    total_monthly_time_saved = time_saved_measurements + time_saved_travel + time_saved_quotes
-    hours_saved_measurement_travel = time_saved_measurements + time_saved_travel
-    monthly_savings = total_monthly_time_saved * data['average_hourly_wage']
-    yearly_savings = monthly_savings * 12
-    hours_saved_per_year = total_monthly_time_saved * 12
-    cost_savings_annual = yearly_savings
-    extra_revenue = total_monthly_time_saved * data['average_hourly_wage'] * 1.5 * 12
-    annual_spotable_cost = SPOTABLE_COST_PER_MONTH * 12
-    total_annual_roi = cost_savings_annual + extra_revenue - annual_spotable_cost
-    hours_saved_measurement_travel_per_year = hours_saved_measurement_travel * 12
-    time_savings_cost = hours_saved_measurement_travel_per_year * data['average_hourly_wage']
-    
-    workflow_analysis = classify_company(data)
-    
-    results_data = {
-        'monthly_savings': round(monthly_savings, 2),
-        'yearly_savings': round(yearly_savings, 2),
-        'total_annual_roi': round(total_annual_roi, 2),
-        'hours_saved_per_year': round(hours_saved_per_year, 0),
-        'cost_savings_annual': round(cost_savings_annual, 2),
-        'extra_revenue': round(extra_revenue, 2),
-        'time_savings_cost': round(time_savings_cost, 2),
-        'workflow_analysis': workflow_analysis
+    # Extract only needed fields for report
+    report_results = {
+        'monthly_savings': results_data['monthly_savings'],
+        'yearly_savings': results_data['yearly_savings'],
+        'total_annual_roi': results_data['total_annual_roi'],
+        'hours_saved_per_year': results_data['hours_saved_per_year'],
+        'cost_savings_annual': results_data['cost_savings_annual'],
+        'extra_revenue': results_data['extra_revenue'],
+        'time_savings_cost': results_data['time_savings_cost'],
+        'workflow_analysis': results_data.get('workflow_analysis', {})
     }
     
     # Create report data
@@ -584,7 +552,7 @@ def download_report():
         'company_type': session.get('company_type'),
         'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'calculator_data': session.get('calculator_data'),
-        'results': results_data
+        'results': report_results
     }
     
     # Create JSON file in memory

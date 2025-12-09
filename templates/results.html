@@ -1,299 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Spotable ROI Analysis</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% extends "base.html" %}
+
+{% block title %}Your Spotable ROI Analysis{% endblock %}
+
+{% block head_extra %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .roi-header-card {
-            background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
-            border: none;
-            color: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(47, 74, 128, 0.15);
-        }
-        .metric-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
-            border-left: 4px solid var(--spotable-soft-blue);
-        }
-        .icon-hours {
-            background: linear-gradient(135deg, #4A90E2 0%, #6B9BD1 100%);
-        }
-        .icon-cost {
-            background: linear-gradient(135deg, #50C878 0%, #8BC4A8 100%);
-        }
-        .icon-revenue {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
-        }
-        .roi-header-card .card-body {
-            padding: 2.5rem;
-        }
-        .metric-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            border: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .metric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        }
-        .icon-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 1rem;
-        }
-        .icon-hours {
-            background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
-        }
-        .icon-cost {
-            background: linear-gradient(135deg, var(--spotable-aqua) 0%, #8BC4A8 100%);
-        }
-        .icon-revenue {
-            background: linear-gradient(135deg, var(--spotable-light-blue) 0%, var(--spotable-soft-blue) 100%);
-        }
-        .divider-line {
-            height: 2px;
-            background: rgba(255, 255, 255, 0.3);
-            margin: 1.5rem 0;
-        }
-        .metric-inline {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-        }
-        .metric-inline:not(:last-child) {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        .chart-container {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(107, 157, 209, 0.2);
-            margin-bottom: 2rem;
-        }
-        .lead-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 0;
-        }
-        .star-icon {
-            font-size: 1.5rem;
-            margin-right: 0.5rem;
-            vertical-align: middle;
-        }
-        .workflow-wrapper-card {
-            background: linear-gradient(135deg, #E6F3FF 0%, #D4E4F5 100%);
-            border: 3px solid var(--spotable-soft-blue);
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(47, 74, 128, 0.15);
-            margin-bottom: 1.5rem;
-        }
-        .workflow-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(47, 74, 128, 0.12);
-            border: 2px solid rgba(107, 157, 209, 0.3);
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .workflow-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(47, 74, 128, 0.2);
-            border-color: var(--spotable-soft-blue);
-        }
-        .workflow-metric-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-            border-radius: 14px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-            border: 2px solid rgba(107, 157, 209, 0.2);
-            padding: 1.75rem;
-            height: 100%;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .workflow-metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--spotable-soft-blue), var(--spotable-aqua));
-        }
-        .workflow-metric-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(47, 74, 128, 0.2);
-            border-color: var(--spotable-soft-blue);
-        }
-        .workflow-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        .workflow-metric-card:hover .workflow-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-        .tag-pill {
-            display: inline-block;
-            padding: 0.5rem 1.25rem;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
-            color: white;
-            box-shadow: 0 3px 10px rgba(47, 74, 128, 0.3);
-            transition: all 0.3s ease;
-        }
-        .workflow-metric-card:hover .tag-pill {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(47, 74, 128, 0.4);
-        }
-        .classification-tag {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #50C878 0%, #8BC4A8 100%);
-            color: var(--spotable-deep-blue);
-            margin-top: 0.5rem;
-            box-shadow: 0 4px 15px rgba(80, 200, 120, 0.4);
-            transition: all 0.3s ease;
-        }
-        .classification-tag:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(80, 200, 120, 0.5);
-        }
-        .insight-number {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            margin-right: 1rem;
-            box-shadow: 0 2px 8px rgba(47, 74, 128, 0.25);
-            flex-shrink: 0;
-        }
-        .workflow-title {
-            color: var(--spotable-deep-blue);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            font-size: 1.75rem;
-        }
-        .workflow-title-icon {
-            margin-right: 0.75rem;
-            color: #FF6B6B;
-            font-size: 2rem;
-        }
-        .breakdown-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            border: none;
-        }
-        .breakdown-header {
-            border-bottom: 2px solid var(--spotable-muted-grey);
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .breakdown-header h4 {
-            color: var(--spotable-deep-blue);
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin: 0;
-        }
-        .breakdown-row {
-            padding: 1.25rem 0;
-        }
-        .breakdown-row:not(:last-child) {
-            border-bottom: 2px solid var(--spotable-muted-grey);
-            margin-bottom: 0.5rem;
-        }
-        .breakdown-row.total-row {
-            border-top: 2px solid var(--spotable-soft-blue);
-            margin-top: 1rem;
-            padding-top: 1.5rem;
-        }
-        .breakdown-title {
-            color: var(--spotable-deep-blue);
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        .breakdown-description {
-            color: var(--spotable-grey-blue);
-            font-size: 0.9rem;
-            margin-bottom: 0;
-            line-height: 1.5;
-        }
-        .breakdown-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--spotable-deep-blue);
-            text-align: right;
-        }
-        .breakdown-value.negative {
-            color: #FF6B6B;
-        }
-        .breakdown-row.total-row .breakdown-value {
-            font-size: 1.5rem;
-            color: var(--spotable-deep-blue);
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="{{ url_for('static', filename='results.css') }}">
+{% endblock %}
+
+{% block content %}
     <div class="container mt-4 mb-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <!-- Spotable Logo -->
-                <div class="spotable-logo-container mb-4">
-                    <div class="spotable-logo-icon">S</div>
-                    <div class="spotable-logo-text">Spotable</div>
-                </div>
+                {% include "includes/_logo.html" %}
 
                 <!-- Main ROI Analysis Card -->
                 <div class="card roi-header-card mb-4">
                     <div class="card-body">
-                        <h2 class="mb-4" style="color: white;">
-                            <i class="bi bi-star-fill star-icon" style="color: white;"></i>
+                        <h2 class="mb-4 roi-header-title">
+                            <i class="bi bi-star-fill star-icon roi-header-star-icon"></i>
                             Your Spotable ROI Analysis
                         </h2>
                         
                         <p class="lead-text mb-4">
-                            Your Company currently spends approximately <strong>{{ results.current_hours_per_month }} hours per month</strong> on measurements and travel. 
+                            Your company currently spends approximately <strong>{{ results.current_hours_per_month }} hours per month</strong> on measurements and travel. 
                             With Spotable, you could save <strong>€{{ results.monthly_savings|currency }}/month</strong> or <strong>€{{ results.yearly_savings|currency }}/year</strong>.
                         </p>
                         
@@ -403,7 +132,7 @@
                         
                         <div class="row breakdown-row total-row align-items-center">
                             <div class="col-md-8">
-                                <h6 class="breakdown-title" style="font-weight: 700; font-size: 1.1rem;">Total Annual ROI</h6>
+                                <h6 class="breakdown-title breakdown-total-title">Total Annual ROI</h6>
                                 <p class="breakdown-description mb-0">
                                     Combined savings and revenue potential
                                 </p>
@@ -426,18 +155,18 @@
                         <!-- Company Classification -->
                         <div class="card workflow-card mb-4">
                             <div class="card-body p-4">
-                                <h5 class="mb-3" style="color: var(--spotable-deep-blue); font-weight: 700; font-size: 1.3rem;">
-                                    <i class="bi bi-award-fill me-2" style="color: #FF6B6B;"></i>
+                                <h5 class="mb-3 workflow-classification-title">
+                                    <i class="bi bi-award-fill me-2 workflow-classification-icon"></i>
                                     Company Classification
                                 </h5>
                                 <div class="classification-tag mb-3">{{ results.workflow_analysis.cluster_label|replace('company', 'Company') }}</div>
-                                <p class="mb-0" style="color: var(--spotable-grey-blue); font-size: 1.05rem; font-weight: 500;">{{ results.workflow_analysis.combined_description|replace('company', 'Company')|title }}</p>
+                                <p class="mb-0 workflow-classification-description">{{ results.workflow_analysis.combined_description|replace('company', 'Company')|title }}</p>
                             </div>
                         </div>
                         
                         <!-- Workflow Breakdown -->
                         <div class="mb-4">
-                            <h5 class="workflow-title mb-4" style="font-size: 1.5rem;">
+                            <h5 class="workflow-title mb-4 workflow-breakdown-title">
                                 <i class="bi bi-diagram-3-fill workflow-title-icon"></i>
                                 Workflow Breakdown
                             </h5>
@@ -445,10 +174,10 @@
                                 <!-- Team Size -->
                                 <div class="col-md-4 col-sm-6">
                                     <div class="workflow-metric-card">
-                                    <div class="workflow-icon" style="background: linear-gradient(135deg, #4A90E2 0%, #6B9BD1 100%);">
+                                    <div class="workflow-icon workflow-icon-team">
                                         <i class="bi bi-people-fill text-white"></i>
                                     </div>
-                                    <h6 class="mb-3" style="font-weight: 700; color: var(--spotable-deep-blue); font-size: 1.05rem;">Team Size</h6>
+                                    <h6 class="mb-3 workflow-metric-title">Team Size</h6>
                                     <span class="tag-pill">{{ results.workflow_analysis.classifications.team_size }}</span>
                                     </div>
                                 </div>
@@ -456,10 +185,10 @@
                                 <!-- Hourly Wage -->
                                 <div class="col-md-4 col-sm-6">
                                     <div class="workflow-metric-card">
-                                        <div class="workflow-icon" style="background: linear-gradient(135deg, #50C878 0%, #8BC4A8 100%);">
+                                        <div class="workflow-icon workflow-icon-wage">
                                             <i class="bi bi-currency-euro text-white"></i>
                                         </div>
-                                        <h6 class="mb-3" style="font-weight: 700; color: var(--spotable-deep-blue); font-size: 1.05rem;">Hourly Wage</h6>
+                                        <h6 class="mb-3 workflow-metric-title">Hourly Wage</h6>
                                         <span class="tag-pill">{{ results.workflow_analysis.classifications.hourly_wage }}</span>
                                     </div>
                                 </div>
@@ -467,10 +196,10 @@
                                 <!-- Project Volume -->
                                 <div class="col-md-4 col-sm-6">
                                     <div class="workflow-metric-card">
-                                        <div class="workflow-icon" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);">
+                                        <div class="workflow-icon workflow-icon-project">
                                             <i class="bi bi-briefcase-fill text-white"></i>
                                         </div>
-                                        <h6 class="mb-3" style="font-weight: 700; color: var(--spotable-deep-blue); font-size: 1.05rem;">Project Volume</h6>
+                                        <h6 class="mb-3 workflow-metric-title">Project Volume</h6>
                                         <span class="tag-pill">{{ results.workflow_analysis.classifications.project_volume }}</span>
                                     </div>
                                 </div>
@@ -478,10 +207,10 @@
                                 <!-- Quote Volume -->
                                 <div class="col-md-4 col-sm-6">
                                     <div class="workflow-metric-card">
-                                        <div class="workflow-icon" style="background: linear-gradient(135deg, #9B59B6 0%, #BB8FCE 100%);">
+                                        <div class="workflow-icon workflow-icon-quote">
                                             <i class="bi bi-file-earmark-text-fill text-white"></i>
                                         </div>
-                                        <h6 class="mb-3" style="font-weight: 700; color: var(--spotable-deep-blue); font-size: 1.05rem;">Quote Volume</h6>
+                                        <h6 class="mb-3 workflow-metric-title">Quote Volume</h6>
                                         <span class="tag-pill">{{ results.workflow_analysis.classifications.quote_volume }}</span>
                                     </div>
                                 </div>
@@ -489,10 +218,10 @@
                                 <!-- Measurement Hours -->
                                 <div class="col-md-4 col-sm-6">
                                     <div class="workflow-metric-card">
-                                        <div class="workflow-icon" style="background: linear-gradient(135deg, #FFA500 0%, #FFB84D 100%);">
+                                        <div class="workflow-icon workflow-icon-measurement">
                                             <i class="bi bi-clock-fill text-white"></i>
                                         </div>
-                                        <h6 class="mb-3" style="font-weight: 700; color: var(--spotable-deep-blue); font-size: 1.05rem;">Measurement Hours</h6>
+                                        <h6 class="mb-3 workflow-metric-title">Measurement Hours</h6>
                                         <span class="tag-pill">{{ results.workflow_analysis.classifications.measurement_hours }}</span>
                                     </div>
                                 </div>
@@ -500,10 +229,10 @@
                                 <!-- Travel Hours -->
                                 <div class="col-md-4 col-sm-6">
                                     <div class="workflow-metric-card">
-                                        <div class="workflow-icon" style="background: linear-gradient(135deg, #00CED1 0%, #40E0D0 100%);">
+                                        <div class="workflow-icon workflow-icon-travel">
                                             <i class="bi bi-car-front-fill text-white"></i>
                                         </div>
-                                        <h6 class="mb-3" style="font-weight: 700; color: var(--spotable-deep-blue); font-size: 1.05rem;">Travel Hours</h6>
+                                        <h6 class="mb-3 workflow-metric-title">Travel Hours</h6>
                                         <span class="tag-pill">{{ results.workflow_analysis.classifications.travel_hours }}</span>
                                     </div>
                                 </div>
@@ -516,11 +245,11 @@
                                 <h5 class="workflow-title mb-4">Key Insights</h5>
                                 <div class="mb-4 d-flex align-items-start">
                                     <span class="insight-number">1</span>
-                                    <span class="flex-grow-1" style="line-height: 1.6;">Your {{ results.workflow_analysis.combined_description|replace('company', 'Company')|title }} can benefit from comprehensive digital transformation</span>
+                                    <span class="flex-grow-1 workflow-insight-text">Your {{ results.workflow_analysis.combined_description|replace('company', 'Company')|title }} can benefit from comprehensive digital transformation</span>
                                 </div>
                                 <div class="mb-0 d-flex align-items-start">
                                     <span class="insight-number">2</span>
-                                    <span class="flex-grow-1" style="line-height: 1.6;">Efficiency gains across all areas will compound to significant savings</span>
+                                    <span class="flex-grow-1 workflow-insight-text">Efficiency gains across all areas will compound to significant savings</span>
                                 </div>
                             </div>
                         </div>
@@ -536,8 +265,9 @@
             </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+
+{% block scripts %}
     <script>
         // Chart data
         const ctx = document.getElementById('hoursChart').getContext('2d');
@@ -620,5 +350,4 @@
             }
         });
     </script>
-</body>
-</html>
+{% endblock %}

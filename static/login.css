@@ -1,0 +1,18 @@
+/* Login page specific styles */
+
+.login-card {
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-12);
+    border: none;
+    overflow: hidden;
+}
+
+.login-header {
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    border-radius: 20px 20px 0 0;
+}
+
+.login-header-title {
+    color: white;
+}
+

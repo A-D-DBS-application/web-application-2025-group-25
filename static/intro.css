@@ -1,0 +1,201 @@
+/* Intro page specific styles */
+
+.intro-hero {
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-15);
+    margin-bottom: 3rem;
+}
+
+.intro-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.intro-hero p {
+    font-size: 1.25rem;
+    opacity: 0.95;
+    font-weight: 300;
+}
+
+.how-it-works {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-08);
+    border: none;
+    padding: 3rem 2rem;
+    margin-bottom: 3rem;
+}
+
+.how-it-works h2 {
+    color: var(--spotable-deep-blue);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+}
+
+.step-card {
+    text-align: center;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 15px var(--shadow-blue-25);
+}
+
+.step-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--spotable-deep-blue);
+    margin-bottom: 1rem;
+}
+
+.step-description {
+    color: var(--spotable-grey-blue);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.content-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-08);
+    border: none;
+    padding: 3rem;
+    margin-bottom: 2rem;
+}
+
+.content-card h2 {
+    color: var(--spotable-deep-blue);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.content-card p {
+    color: var(--spotable-grey-blue);
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.icon-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--spotable-pastel-blue) 0%, var(--spotable-light-blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.icon-box i {
+    font-size: 1.75rem;
+    color: var(--spotable-deep-blue);
+}
+
+.btn-start {
+    background: linear-gradient(135deg, var(--spotable-deep-blue) 0%, var(--spotable-soft-blue) 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 3rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px var(--shadow-blue-25);
+    color: white;
+}
+
+.btn-start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-blue-30);
+    color: white;
+}
+
+.cta-section {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-blue-08);
+}
+
+.cta-section h2 {
+    color: var(--spotable-deep-blue);
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    color: var(--spotable-grey-blue);
+    font-size: 1.1rem;
+}
+
+.intro-content-divider {
+    border-top: 2px solid var(--spotable-muted-grey);
+}
+
+.intro-content-title {
+    color: var(--spotable-deep-blue);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.intro-content-text {
+    color: var(--spotable-grey-blue);
+}
+
+.intro-content-list {
+    color: var(--spotable-grey-blue);
+}
+
+.intro-content-list-icon {
+    color: var(--spotable-aqua);
+}
+
+.intro-icon-title {
+    color: var(--spotable-deep-blue);
+}
+
+.intro-icon-text {
+    color: var(--spotable-grey-blue);
+}
+
+.intro-icon-lightning {
+    color: var(--spotable-soft-blue);
+}
+
+@media (max-width: 768px) {
+    .intro-hero h1 {
+        font-size: 2rem;
+    }
+    .intro-hero p {
+        font-size: 1rem;
+    }
+    .content-card {
+        padding: 2rem 1.5rem;
+    }
+    .how-it-works {
+        padding: 2rem 1rem;
+    }
+    .how-it-works h2 {
+        font-size: 2rem;
+    }
+}
+
