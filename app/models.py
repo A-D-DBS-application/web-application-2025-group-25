@@ -57,6 +57,22 @@ class PricingAICompany(db.Model):
         return f'<PricingAICompany {self.pricing_id} - {self.ai_service_cost}>'
 
 
+class AIPartner(db.Model):
+    """Model for AI partners/companies"""
+    __tablename__ = 'AI_partner'
+    
+    partner_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+    name = db.Column(db.Text, nullable=True)
+    contact_email = db.Column(db.Text, nullable=False, unique=True)
+    
+    # Relationships - commented out for now, will be used later
+    # ai_solutions = db.relationship('AISolution', backref='ai_partner', lazy=True, foreign_keys='AISolution.partner_id')
+    
+    def __repr__(self):
+        return f'<AIPartner {self.partner_id} - {self.name}>'
+
+
 class AISolution(db.Model):
     """Model for AI solutions - needed for foreign key reference"""
     __tablename__ = 'AI_solution'
@@ -66,10 +82,22 @@ class AISolution(db.Model):
     description = db.Column(db.Text, nullable=False, unique=True)
     customer_cost = db.Column(db.Float, nullable=True)
     pricing_model = db.Column(db.Text, nullable=True)
-    partner_id = db.Column(db.BigInteger, nullable=True, unique=True)
+    partner_id = db.Column(db.BigInteger, nullable=True, unique=True)  # FK removed for now, will be used later
     
     def __repr__(self):
         return f'<AISolution {self.solution_id} - {self.name}>'
+
+
+class InputParameterTemplate(db.Model):
+    """Model for input parameter templates"""
+    __tablename__ = 'Input_Parameter_Template'
+    
+    parameters_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+    partner_id = db.Column(db.BigInteger, nullable=False, unique=True)
+    
+    def __repr__(self):
+        return f'<InputParameterTemplate {self.parameters_id} - Partner {self.partner_id}>'
 
 
 class CostsSaved(db.Model):
@@ -80,7 +108,7 @@ class CostsSaved(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     company_id = db.Column(db.BigInteger, db.ForeignKey('Company.company-id'), nullable=False)
     hours_spent_process = db.Column(db.Float, nullable=True)
-    materials_used_price = db.Column(db.BigInteger, nullable=True, unique=True)
+    # parameters_id removed - not used for now, will be used later for AI partners
     
     # Relationship
     calculators = db.relationship('Calculator', backref='costs_saved', lazy=True)
@@ -96,7 +124,7 @@ class Calculator(db.Model):
     calculator_id = db.Column('calculator_id', db.BigInteger, primary_key=True, autoincrement=True)
     annual_net_profit = db.Column('annuel_net_profit', db.Float, nullable=True)  # Note: database has typo "annuel"
     cost_saved_id = db.Column('Cost_saved_id', db.BigInteger, db.ForeignKey('Costs_saved.Cost_saved_id'), nullable=True)
-    solution_id = db.Column('solution_id', db.BigInteger, db.ForeignKey('AI_solution.solution_id'), nullable=True)
+    solution_id = db.Column('solution_id', db.BigInteger, nullable=True)  # FK removed for now, will be used later for AI partners
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     
     def __repr__(self):

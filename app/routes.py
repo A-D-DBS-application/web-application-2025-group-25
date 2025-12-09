@@ -410,8 +410,7 @@ def results():
         
         costs_saved = CostsSaved(
             company_id=company.company_id,
-            hours_spent_process=hours_spent_per_year,
-            materials_used_price=None  # Not used in our calculator
+            hours_spent_process=hours_spent_per_year
         )
         db.session.add(costs_saved)
         db.session.flush()  # Get the ID

@@ -11,4 +11,3 @@ class Config:
     
     # Application constants
     SPOTABLE_COST_PER_MONTH = 199
-
