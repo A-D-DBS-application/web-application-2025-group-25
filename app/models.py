@@ -16,7 +16,7 @@ class TypeOfCompany(db.Model):
     Type_of_company_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     sector = db.Column(db.Text, nullable=True)
-    description = db.Column(db.Text, nullable=True)
+    # description column removed - not in database schema
     
     # Relationship
     companies = db.relationship('Company', backref='type_of_company', lazy=True)
@@ -129,4 +129,18 @@ class Calculator(db.Model):
     
     def __repr__(self):
         return f'<Calculator {self.calculator_id} - Profit: {self.annual_net_profit}>'
+
+
+class ClusteringResult(db.Model):
+    """Model for clustering results"""
+    __tablename__ = 'Clustering_Result'
+    
+    clustering_result_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+    company_id = db.Column(db.BigInteger, db.ForeignKey('Company.company-id'), nullable=True, unique=True)
+    calculator_id = db.Column(db.BigInteger, db.ForeignKey('Calculator.calculator_id'), nullable=True, unique=True)
+    cluster_name = db.Column(db.Text, nullable=True)  # e.g., "Measurement Heavy Company"
+    
+    def __repr__(self):
+        return f'<ClusteringResult {self.clustering_result_id} - {self.cluster_name}>'
 

@@ -4,7 +4,7 @@ from io import BytesIO
 from datetime import datetime
 from app.config import Config
 from app.models import (
-    db, Company, TypeOfCompany, Calculator, CostsSaved, PricingAICompany
+    db, Company, TypeOfCompany, Calculator, CostsSaved, PricingAICompany, ClusteringResult
 )
 
 # Create blueprint for routes
@@ -352,8 +352,7 @@ def results():
         if not type_of_company:
             print(f"➕ Creating new company type: {company_type_name}")
             type_of_company = TypeOfCompany(
-                sector=company_type_name,
-                description=f"Company type: {company_type_name}"
+                sector=company_type_name
             )
             db.session.add(type_of_company)
             db.session.flush()  # Get the ID
@@ -423,6 +422,28 @@ def results():
             solution_id=None  # Not used in our calculator
         )
         db.session.add(calculator)
+        db.session.flush()  # Get the ID
+        
+        # 6. Create or update Clustering_Result (save clustering algorithm result)
+        cluster_name = workflow_analysis.get('cluster_label', 'Standard Operations Company')
+        
+        # Check if clustering result already exists for this company
+        existing_clustering = ClusteringResult.query.filter_by(company_id=company.company_id).first()
+        
+        if existing_clustering:
+            # Update existing clustering result
+            existing_clustering.calculator_id = calculator.calculator_id
+            existing_clustering.cluster_name = cluster_name
+            print(f"✓ Updated existing Clustering_Result for company {company.company_id}")
+        else:
+            # Create new clustering result
+            clustering_result = ClusteringResult(
+                company_id=company.company_id,
+                calculator_id=calculator.calculator_id,
+                cluster_name=cluster_name
+            )
+            db.session.add(clustering_result)
+            print(f"✓ Created new Clustering_Result for company {company.company_id}")
         
         # Commit all changes
         print("💾 Committing to database...")
@@ -431,6 +452,7 @@ def results():
         print(f"   - Company ID: {company.company_id}")
         print(f"   - Calculator ID: {calculator.calculator_id}")
         print(f"   - Annual Net Profit: {calculator.annual_net_profit}")
+        print(f"   - Cluster Name: {cluster_name}")
         flash('✅ Data successfully saved to database!', 'success')
         
     except Exception as e:
