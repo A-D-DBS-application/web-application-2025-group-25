@@ -6,7 +6,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'Groep25&groep25'
     
     # Supabase PostgreSQL database connection
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:5FJrydgxoSBBnqQV@db.hsjjntcivrvlguqfdqxl.supabase.co:5432/postgres?sslmode=require"
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres.hsjjntcivrvlguqfdqxl:Ot641zn1rScPUkeo@aws-1-eu-central-1.pooler.supabase.com:6543/postgres"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Application constants
