@@ -8,15 +8,12 @@ In short, the MVP demonstrates Spotable’s core value proposition: enabling roo
 
 Key Features:
 
-Login: Store email and company information in the session.
+Login: Store email and company information in the session.  
+Calculator: Input fields for team size, hourly rate, projects, quotes, and hours.  
+Results Dashboard: Displays monthly and annual savings, ROI, workflow analysis, and charts.  
+Workflow Analysis: Classifies the company (small, medium, large) and assigns a label such as quote-intensive, measurement-heavy, high-load, or balanced.  
+Export & Download: Export page and JSON download of the full report.  
 
-Calculator: Input fields for team size, hourly rate, projects, quotes, and hours.
-
-Results Dashboard: Displays monthly and annual savings, ROI, workflow analysis, and charts.
-
-Workflow Analysis: Classifies the company (small, medium, large) and assigns a label such as quote-intensive, measurement-heavy, high-load, or balanced.
-
-Export & Download: Export page and JSON download of the full report.
 
 
 
