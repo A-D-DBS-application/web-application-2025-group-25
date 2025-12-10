@@ -51,7 +51,6 @@ class PricingAICompany(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     ai_service_cost = db.Column(db.BigInteger, nullable=False, unique=True)
     
-    # Note: No direct relationship to Calculator in database schema
     
     def __repr__(self):
         return f'<PricingAICompany {self.pricing_id} - {self.ai_service_cost}>'
@@ -66,9 +65,7 @@ class AIPartner(db.Model):
     name = db.Column(db.Text, nullable=True)
     contact_email = db.Column(db.Text, nullable=False, unique=True)
     
-    # Relationships - commented out for now, will be used later
-    # ai_solutions = db.relationship('AISolution', backref='ai_partner', lazy=True, foreign_keys='AISolution.partner_id')
-    
+
     def __repr__(self):
         return f'<AIPartner {self.partner_id} - {self.name}>'
 
@@ -108,7 +105,6 @@ class CostsSaved(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     company_id = db.Column(db.BigInteger, db.ForeignKey('Company.company-id'), nullable=False)
     hours_spent_process = db.Column(db.Float, nullable=True)
-    # parameters_id removed - not used for now, will be used later for AI partners
     
     # Relationship
     calculators = db.relationship('Calculator', backref='costs_saved', lazy=True)
