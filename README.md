@@ -12,6 +12,7 @@ Link to Kanban board:
 https://miro.com/welcomeonboard/UzhPck1BWkJNVURoNW9kaVpCS3l1TDl5QzQ2Y04wdlF6ZGZFSW5oL1JCMVFFTDlHWDF5cXpUT2xsNUVveWFLcFEvSnJBWWpMNTBTQndTVU54RGZjdDlHWTh3emxNRTNSb3NCM3VrN0pDWkt5N280VXh3REI4OWZHOHh1T2YvdDdyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=867345168406
 
 Link to audio/video recording of feedback sessions with partner:
+
 SPRINT 1:
 
 SPRINT 2: https://drive.google.com/file/d/1Be_TmSHRTbUw6MePh8zmlv0gq3mGlHE7/view?usp=sharing 
