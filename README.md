@@ -7,16 +7,12 @@ The MVP showcases this value by allowing users to enter key business data, autom
 In short, the MVP demonstrates Spotable’s core value proposition: enabling roofing companies to clearly understand how much time, money, and efficiency they gain by generating remote, AI-powered offers, proving that Spotable is not only innovative, but significantly more advantageous than conventional quoting processes.
 
 Key Features:
-
 Login: Store email and company information in the session.
-
 Calculator: Input fields for team size, hourly rate, projects, quotes, and hours.
-
 Results Dashboard: Displays monthly and annual savings, ROI, workflow analysis, and charts.
-
 Workflow Analysis: Classifies the company (small, medium, large) and assigns a label such as quote-intensive, measurement-heavy, high-load, or balanced.
-
 Export & Download: Export page and JSON download of the full report.
+
 
 
 Link to UI prototype: https://www.figma.com/make/oWpv2R1BzTACEbLA7UeAFm/Spotable?node-id=0-1&t=OAIe3RIbNBPXSl1K-1 
