@@ -118,7 +118,8 @@ class Calculator(db.Model):
     __tablename__ = 'Calculator'
     
     calculator_id = db.Column('calculator_id', db.BigInteger, primary_key=True, autoincrement=True)
-    annual_net_profit = db.Column('annuel_net_profit', db.Float, nullable=True)  # Note: database has typo "annuel"
+    # Column name aligned with Supabase (renamed from 'annuel_net_profit' to 'annual_net_profit')
+    annual_net_profit = db.Column('annual_net_profit', db.Float, nullable=True)
     cost_saved_id = db.Column('Cost_saved_id', db.BigInteger, db.ForeignKey('Costs_saved.Cost_saved_id'), nullable=True)
     solution_id = db.Column('solution_id', db.BigInteger, nullable=True)  # FK removed for now, will be used later for AI partners
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
