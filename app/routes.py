@@ -233,6 +233,14 @@ def require_calculator_data():
     return None
 
 
+def require_auth_and_data():
+    """Helper function to check both login and calculator data"""
+    login_check = require_login()
+    if login_check:
+        return login_check
+    return require_calculator_data()
+
+
 def check_database_connection():
     """Check if database connection is available"""
     try:
@@ -473,11 +481,7 @@ def calculator():
 def results():
     """Results page - displays ROI calculations"""
     # Check authentication and data
-    redirect_response = require_login()
-    if redirect_response:
-        return redirect_response
-    
-    redirect_response = require_calculator_data()
+    redirect_response = require_auth_and_data()
     if redirect_response:
         return redirect_response
     
@@ -503,11 +507,7 @@ def results():
 def export():
     """Export & Share page - allows downloading and emailing the report"""
     # Check authentication and data
-    redirect_response = require_login()
-    if redirect_response:
-        return redirect_response
-    
-    redirect_response = require_calculator_data()
+    redirect_response = require_auth_and_data()
     if redirect_response:
         return redirect_response
     
