@@ -1,0 +1,98 @@
+-- ============================================
+-- TABLE: type_of_company
+-- ============================================
+CREATE TABLE type_of_company (
+    type_of_company_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    sector TEXT
+);
+
+-- ============================================
+-- TABLE: company
+-- ============================================
+CREATE TABLE company (
+    company_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    name TEXT,
+    employee_count BIGINT,
+    projects_per_year BIGINT,
+    type_of_company_id BIGINT REFERENCES type_of_company(type_of_company_id)
+);
+
+-- ============================================
+-- TABLE: ai_partner
+-- ============================================
+CREATE TABLE ai_partner (
+    partner_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    name TEXT,
+    contact_email TEXT
+);
+
+-- ============================================
+-- TABLE: ai_solution
+-- ============================================
+CREATE TABLE ai_solution (
+    solution_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    name TEXT,
+    description TEXT,
+    customer_cost DOUBLE PRECISION,
+    partner_id BIGINT REFERENCES ai_partner(partner_id)
+);
+
+-- ============================================
+-- TABLE: parameter_value
+-- ============================================
+CREATE TABLE parameter_value (
+    parameters_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    partner_id BIGINT REFERENCES ai_partner(partner_id),
+    parameter_name TEXT,
+    parameter_value BIGINT
+);
+
+-- ============================================
+-- TABLE: costs_saved
+-- ============================================
+CREATE TABLE costs_saved (
+    cost_saved_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    company_id BIGINT REFERENCES company(company_id),
+    parameters_id BIGINT REFERENCES parameter_value(parameters_id),
+    hours_spent_process DOUBLE PRECISION
+);
+
+-- ============================================
+-- TABLE: calculator
+-- ============================================
+CREATE TABLE calculator (
+    calculator_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    annual_net_profit DOUBLE PRECISION,
+    solution_id BIGINT REFERENCES ai_solution(solution_id),
+    cost_saved_id BIGINT REFERENCES costs_saved(cost_saved_id)
+);
+
+-- ============================================
+-- TABLE: clustering_result
+-- ============================================
+CREATE TABLE clustering_result (
+    clustering_result_id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP,
+    company_id BIGINT REFERENCES company(company_id),
+    calculator_id BIGINT REFERENCES calculator(calculator_id),
+    cluster_name TEXT
+);
+
+-- ============================================
+-- TABLE: payment_subscription
+-- ============================================
+CREATE TABLE payment_subscription (
+    subscription_id BIGSERIAL PRIMARY KEY,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    plan_name TEXT,
+    status TEXT,
+    partner_id BIGINT REFERENCES ai_partner(partner_id)
+);
