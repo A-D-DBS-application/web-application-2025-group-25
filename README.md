@@ -25,7 +25,7 @@ SPRINT 1: https://drive.google.com/file/d/1MU2T3dK_-_Pl7uvq6DYHo4XEe-Jmu6qu/view
 
 SPRINT 2: https://drive.google.com/file/d/1Be_TmSHRTbUw6MePh8zmlv0gq3mGlHE7/view?usp=sharing 
 
-SPRINT 3:
+SPRINT 3: https://drive.google.com/file/d/1GebhZY2qGa1K1wTy0sTT_3134Ljn03Gl/view?ts=693d6640
 
 Screenshots of UI (prototype): 
 intro page:
