@@ -14,7 +14,7 @@ Workflow Analysis: Classifies the company (small, medium, large) and assigns a l
 Export & Download: Export page and JSON download of the full report.  
 
 How to install?   
-1. Clone the repository  
+1. Clone the repository
 git clone https://github.com/A-D-DBS-application/web-application-2025-group-25.git
 cd web-application-2025-group-25
 
