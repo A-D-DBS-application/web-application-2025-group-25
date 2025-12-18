@@ -21,8 +21,8 @@ cd web-application-2025-group-25
 3. Create and activate a virtual environment  
 macOS / Linux  
 python3 -m venv venv  
-source venv/bin/activate
-Windows   
+source venv/bin/activate  
+Windows  
 python -m venv venv  
 venv\Scripts\activate
 
