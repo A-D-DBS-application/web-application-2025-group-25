@@ -13,11 +13,37 @@ Results Dashboard: Displays monthly and annual savings, ROI, workflow analysis, 
 Workflow Analysis: Classifies the company (small, medium, large) and assigns a label such as quote-intensive, measurement-heavy, high-load, or balanced.  
 Export & Download: Export page and JSON download of the full report.  
 
+How to install?   
+1. Clone the repository  
+git clone https://github.com/A-D-DBS-application/web-application-2025-group-25.git
+cd web-application-2025-group-25
+
+2. Create and activate a virtual environment
+macOS / Linux
+python3 -m venv venv
+source venv/bin/activate
+Windows   
+python -m venv venv  
+venv\Scripts\activate
+
+3. Install requirements   
+pip install -r requirements.txt
+
+4. Start Flask app   
+macOS / Linux   
+python3 app.py   
+Windows   
+python app.py  
+
+
 Links to additional tools:  
 Link to UI prototype: https://www.figma.com/make/oWpv2R1BzTACEbLA7UeAFm/Spotable?node-id=0-1&t=OAIe3RIbNBPXSl1K-1 
 
 Link to Kanban board:
 https://miro.com/welcomeonboard/UzhPck1BWkJNVURoNW9kaVpCS3l1TDl5QzQ2Y04wdlF6ZGZFSW5oL1JCMVFFTDlHWDF5cXpUT2xsNUVveWFLcFEvSnJBWWpMNTBTQndTVU54RGZjdDlHWTh3emxNRTNSb3NCM3VrN0pDWkt5N280VXh3REI4OWZHOHh1T2YvdDdyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=867345168406
+
+Link to render:  
+https://web-application-2025-group-25-6.onrender.com
 
 Link to audio/video recording of feedback sessions with partner:
 
