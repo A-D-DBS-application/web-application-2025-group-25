@@ -37,7 +37,8 @@ python app.py
 
 
 Links to additional tools:  
-Link to UI prototype: https://www.figma.com/make/oWpv2R1BzTACEbLA7UeAFm/Spotable?node-id=0-1&t=OAIe3RIbNBPXSl1K-1 
+Link to UI prototype:   
+https://www.figma.com/make/oWpv2R1BzTACEbLA7UeAFm/Spotable?node-id=0-1&t=OAIe3RIbNBPXSl1K-1 
 
 Link to Kanban board:
 https://miro.com/welcomeonboard/UzhPck1BWkJNVURoNW9kaVpCS3l1TDl5QzQ2Y04wdlF6ZGZFSW5oL1JCMVFFTDlHWDF5cXpUT2xsNUVveWFLcFEvSnJBWWpMNTBTQndTVU54RGZjdDlHWTh3emxNRTNSb3NCM3VrN0pDWkt5N280VXh3REI4OWZHOHh1T2YvdDdyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=867345168406
