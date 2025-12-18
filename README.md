@@ -42,7 +42,7 @@ Link to UI prototype: https://www.figma.com/make/oWpv2R1BzTACEbLA7UeAFm/Spotable
 Link to Kanban board:
 https://miro.com/welcomeonboard/UzhPck1BWkJNVURoNW9kaVpCS3l1TDl5QzQ2Y04wdlF6ZGZFSW5oL1JCMVFFTDlHWDF5cXpUT2xsNUVveWFLcFEvSnJBWWpMNTBTQndTVU54RGZjdDlHWTh3emxNRTNSb3NCM3VrN0pDWkt5N280VXh3REI4OWZHOHh1T2YvdDdyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=867345168406
 
-Link to render:  
+Link to Render:  
 https://web-application-2025-group-25-6.onrender.com
 
 Link to audio/video recording of feedback sessions with partner:
