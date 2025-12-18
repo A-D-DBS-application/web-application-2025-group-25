@@ -14,13 +14,13 @@ Workflow Analysis: Classifies the company (small, medium, large) and assigns a l
 Export & Download: Export page and JSON download of the full report.  
 
 How to install?   
-1. Clone the repository
-git clone https://github.com/A-D-DBS-application/web-application-2025-group-25.git
+1. Clone the repository  
+git clone https://github.com/A-D-DBS-application/web-application-2025-group-25.git  
 cd web-application-2025-group-25
 
-3. Create and activate a virtual environment
-macOS / Linux
-python3 -m venv venv
+3. Create and activate a virtual environment  
+macOS / Linux  
+python3 -m venv venv  
 source venv/bin/activate
 Windows   
 python -m venv venv  
