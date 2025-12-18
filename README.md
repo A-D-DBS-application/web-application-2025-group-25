@@ -15,21 +15,24 @@ Export & Download: Export page and JSON download of the full report.
 
 How to install?   
 1. Clone the repository
+
 git clone https://github.com/A-D-DBS-application/web-application-2025-group-25.git
 cd web-application-2025-group-25
 
-2. Create and activate a virtual environment
+3. Create and activate a virtual environment
+
 macOS / Linux
 python3 -m venv venv
 source venv/bin/activate
+
 Windows   
 python -m venv venv  
 venv\Scripts\activate
 
-3. Install requirements   
+4. Install requirements   
 pip install -r requirements.txt
 
-4. Start Flask app   
+5. Start Flask app   
 macOS / Linux   
 python3 app.py   
 Windows   
